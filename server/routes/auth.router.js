@@ -13,24 +13,15 @@ const {
 } = require("../helpers/middlewares");
 
 // POST '/auth/signup'
-router.post("/signup", isNotLoggedIn, validationLogin, (req, res, next) => {
+router.post("/signup", isNotLoggedIn, (req, res, next) => {
   console.log("Signup");
-  const {
-    username,
-    firstName,
-    lastName,
-    image,
-    admin,
-    email,
-    password,
-  } = req.body;
+  const { username, email, password } = req.body;
   //console.log("SIGNING UP FROM AUTH.ROUTER");
   User.findOne({ email })
     .then((foundUser) => {
       //console.log("foundUser :>> ", foundUser);
       if (foundUser) {
         // If email is already taken, then return error response
-
         return next(createError(400)); // Bad Request
       } else {
         // If email is available, go and create a new user
@@ -38,20 +29,9 @@ router.post("/signup", isNotLoggedIn, validationLogin, (req, res, next) => {
         const encryptedPassword = bcrypt.hashSync(password, salt);
 
         User.create({
+          username,
           email,
           password: encryptedPassword,
-          firstName,
-          lastName,
-          address,
-          country,
-          CP,
-          city,
-          state,
-          phoneNumber,
-          gender,
-          birthDateDay,
-          birthDateMonth,
-          birthDateYear,
         })
           .then((createdUser) => {
             // set the `req.session.currentUser` using newly created user object, to trigger creation of the session and cookie
