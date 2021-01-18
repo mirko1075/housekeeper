@@ -115,7 +115,7 @@ router.get("/logout", isLoggedIn, (req, res, next) => {
 
 // GET '/auth/me'
 router.get("/me", isLoggedIn, (req, res, next) => {
-  //console.log("Me :>> ");
+  console.log("Me :>> ");
   currentUserSessionData = req.session.currentUser;
 
   res.status(200).json(currentUserSessionData);
@@ -187,80 +187,6 @@ router.post("/editProfile", isLoggedIn, (req, res, next) => {
     })
     .catch((err) => {
       next(createError(err));
-    });
-});
-
-// GET '/auth/cart'
-router.get("/cart", isLoggedIn, (req, res, next) => {
-  console.log("Get Cart> ");
-  if (req.session.currentUser) {
-    const userId = req.session.currentUser._id;
-    // console.log("currentUserSessionData :>> ", currentUserSessionData);
-    const pr = User.findById(userId)
-      .populate({
-        path: "cart",
-        populate: {
-          path: "productId",
-        },
-      })
-      .then((userFound) => {
-        const cart = userFound.cart;
-        console.log("Retriving cart :>> ", cart);
-        res.status(200).json(cart);
-      })
-      .catch((err) => {
-        console.log("Error retriving user cart :>> ", err);
-      });
-  } else {
-    es.status(200).json({});
-  }
-});
-
-// POST '/auth/cart'
-router.post("/cart", isLoggedIn, (req, res, next) => {
-  const cart = req.body;
-  //console.log("req.body from route :>> ", req.body);
-  //console.log("cart from route :>> ", cart);
-  // const cartItem = { id: cart.id, amount: cart.amount };
-  // const cartItem = cart;
-  // //console.log("cartItem :>> ", cartItem);
-  const currentUserSessionData = req.session.currentUser._id;
-
-  // const pr = User.findOneAndUpdate(
-  //   { _id: currentUserSessionData },
-  //   { $set: { cart: cartItem } }
-  // )
-
-  const pr = User.findByIdAndUpdate(currentUserSessionData, {
-    $set: {
-      cart: cart,
-    },
-  })
-    .then((userUpdated) => {
-      //console.log("userUpdated :>> ", userUpdated.cart);
-      res.status(200).json(userUpdated);
-    })
-    .catch((err) => {
-      //console.log("err", err);
-    });
-});
-
-// POST '/auth/favourites'
-router.post("/favourites", isLoggedIn, (req, res, next) => {
-  const userId = req.session.currentUser;
-  const { productId, favourite } = req.body;
-  console.log("Favourites modifying  :>> ", productId, favourite, req.body);
-  const pr = User.findByIdAndUpdate(userId, {
-    $set: {
-      favourites: favourite,
-    },
-  })
-    .then((userUpdated) => {
-      console.log("userUpdated :>> ", userUpdated);
-      res.status(200).json(userUpdated);
-    })
-    .catch((err) => {
-      console.log("err", err);
     });
 });
 

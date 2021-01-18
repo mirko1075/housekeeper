@@ -59,7 +59,7 @@ app.use(express.static(path.join(__dirname, "public")));
 
 // ROUTER
 app.use("/auth", authRouter);
-app.use("/api", apiRouter);
+// app.use("/api", apiRouter);
 
 // ROUTE FOR SERVING REACT APP (index.html)
 app.use((req, res, next) => {
@@ -87,5 +87,9 @@ app.use((err, req, res, next) => {
     res.status(statusError).json(err);
   }
 });
+var port = process.env.PORT || 5000;
 
+app.listen(port, function () {
+  console.log("Example app listening on port " + port + "!");
+});
 module.exports = app;
