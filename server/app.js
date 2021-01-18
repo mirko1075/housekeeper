@@ -12,7 +12,6 @@ require("dotenv").config();
 
 const authRouter = require("./routes/auth.router");
 const apiRouter = require("./routes/api.router");
-const privateRouter = require("./routes/private.router");
 
 // MONGOOSE CONNECTION
 mongoose
@@ -61,12 +60,13 @@ app.use(express.static(path.join(__dirname, "public")));
 // ROUTER MIDDLEWARE
 app.use("/auth", authRouter);
 app.use("/api", apiRouter);
-app.use("/private", privateRouter);
+
 // ROUTE FOR SERVING REACT APP (index.html)
 app.use((req, res, next) => {
   // If no previous routes match the request, send back the React app.
   res.sendFile(__dirname + "/public/index.html");
 });
+
 // ERROR HANDLING
 //  Catch 404 and respond with error message
 // Shows a 404 error with a message when no route is found for the request
