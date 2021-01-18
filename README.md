@@ -50,7 +50,7 @@ Household:
 {
     title: {type: String, default: "Our home", required: true},
     admin: {type: Schema.Types.ObjectId, ref:"User"},
-    roommates: [{type: Schema.Types.ObjectId, ref:"User"}],
+    members: [{type: Schema.Types.ObjectId, ref:"User"}],
     expenses: [{type: Schema.Types.ObjectId, ref:"Expense"}],
     shifts: [{type: Schema.Types.ObjectId, ref:"Shift"}],
     shoppingList: [{type: Schema.Types.ObjectId, ref:"ShoppingItem"}],
@@ -89,9 +89,6 @@ Shift:
     description: String
     points: Number,
     nextTask: {type: Schema.Types.ObjectId, ref:"Task"},
-    upcomingTasks: [ {type: Schema.Types.ObjectId, ref:"Task"},
-                    {type: Schema.Types.ObjectId, ref:"Task"}, 
-                    {type: Schema.Types.ObjectId, ref:"Task"},
-                    {type: Schema.Types.ObjectId, ref:"Task"}]
+    scheduledTasks: [ {type: Schema.Types.ObjectId, ref:"Task"}]
 }
 ```
