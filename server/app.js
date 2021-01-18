@@ -30,7 +30,12 @@ const app = express();
 app.use(
   cors({
     credentials: true,
-    origin: ["http://localhost:3000", "http://localhost", "http://127.0.0.1"],
+    origin: [
+      "http://localhost:3000",
+      "http://localhost",
+      "http://127.0.0.1",
+      "http://127.0.0.1:3000",
+    ],
   })
 );
 
@@ -64,6 +69,7 @@ app.use("/api", apiRouter);
 // ROUTE FOR SERVING REACT APP (index.html)
 app.use((req, res, next) => {
   // If no previous routes match the request, send back the React app.
+  console.log("No matching request :>> ");
   res.sendFile(__dirname + "/public/index.html");
 });
 
@@ -71,6 +77,7 @@ app.use((req, res, next) => {
 //  Catch 404 and respond with error message
 // Shows a 404 error with a message when no route is found for the request
 app.use((req, res, next) => {
+  console.log("404");
   res.status(404).json({ code: "not found" }); // .send( JSON.stringify(  { code: 'not found' }  ) )
 });
 

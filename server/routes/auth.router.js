@@ -16,18 +16,11 @@ const {
 router.post("/signup", isNotLoggedIn, validationLogin, (req, res, next) => {
   console.log("Signup");
   const {
+    username,
     firstName,
     lastName,
-    address,
-    country,
-    CP,
-    city,
-    state,
-    phoneNumber,
-    gender,
-    birthDateDay,
-    birthDateMonth,
-    birthDateYear,
+    image,
+    admin,
     email,
     password,
   } = req.body;
