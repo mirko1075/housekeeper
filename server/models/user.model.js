@@ -9,7 +9,7 @@ const userSchema = new Schema({
     image: String,
     admin: {type: Boolean, default: false},
     household: {type: Schema.Types.ObjectId, ref:"Household"},
-   	currentScore: {type: Number, deafult: 0, required: true},
+   	currentScore: {type: Number, default: 0},
    	shifts: [{type: Schema.Types.ObjectId, ref:"Shift"}],
    	pendingTasks: [{type: Schema.Types.ObjectId, ref:"Task"}],
     completedTasks: [{type: Schema.Types.ObjectId, ref:"Task"}],
