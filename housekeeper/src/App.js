@@ -1,23 +1,27 @@
-import logo from './logo.svg';
+import React from 'react';
 import './App.css';
+import { Switch, Route } from 'react-router-dom';
+
+import AnonRoute from './components/AnonRoute';
+
+import Home from './pages/Home';
+import Authentication from './pages/Authentication';
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+        <Switch>
+          <Route exact path="/" component={Home} />
+          <AnonRoute exact path="/login" component={Authentication} />
+
+          {/* <Route exact path="/gigboard" component={GigBoard} />
+          <Route exact path="/faq" component={FAQ} />
+
+          <AnonRoute exact path="/signup" component={Signup} />
+
+          <PrivateRoute exact path="/my-profile" component={MyProfile} />
+          <Route exact path="/:endpoint" component={BandPage}/> */}
+        </Switch>
     </div>
   );
 }
