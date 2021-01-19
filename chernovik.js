@@ -1,46 +1,4 @@
-import React, { Component } from "react";
-import authService from "./../lib/auth-service";
-import {withAuth} from './../context/auth-context';
-
-class Authentication extends Component {
-
-  state = {
-    username: "",
-    email: "",
-    password: "",
-    showSignup: false,
-  };
-
-  handleInput = (event) => {
-    const { name, value } = event.target;
-    this.setState({ [name]: value });
-  };
-
-  toggleSignup = () => {
-    this.setState({
-      showSignup: !this.state.showSignup,
-      email: "",
-      password: "",
-      username: "",
-    });
-  };
-
-    submitLogin = (event) => {
-        event.preventDefault();
-        const {email, password} = this.state;
-        this.props.login(email,password);
-    }
-
-  submitSignup = (event) => {
-    event.preventDefault();
-        const {username, email, password} = this.state;
-        this.props.signup(username, email,password);
-  };
-
-  render() {
-
-    return (
-        <div>
+<div>
         {!this.state.showSignup 
         ? (<div>
         <h2>Login form</h2>
@@ -105,10 +63,4 @@ class Authentication extends Component {
         <button onClick={this.toggleSignup}>Log In</button>
       </div>)} 
     
-    </div>
-    )
-       
-}};
-
-
-export default withAuth(Authentication);
+      </div>
