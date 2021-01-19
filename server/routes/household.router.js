@@ -11,30 +11,48 @@ const {
 } = require("../helpers/middlewares");
 
 router.post("/", isLoggedIn, (req, res, next) => {
-    const { title } = req.body;
-    const admin = req.session.currentUser._id;
+  const { title } = req.body;
+  const admin = req.session.currentUser._id;
 
-    Household.create({title, admin})
+  Household.create({ title, admin })
     .then((newHouse) => {
-        const houseID = newHouse._id;
-        const adminID = newHouse.admin;
-        User.findByIdAndUpdate(adminID, {household: houseID})
-        .then(updatedUser => {
-            req.session.currentUser.household = updatedUser.household; 
-            res
-            .status(201) 
-            .json(newHouse); 
+      const houseID = newHouse._id;
+      const adminID = newHouse.admin;
+      User.findByIdAndUpdate(adminID, { household: houseID, admin: true })
+        .then((updatedUser) => {
+          req.session.currentUser.household = updatedUser.household;
+          res.status(201).json(newHouse);
         })
         .catch((err) => {
-            next(createError(err)); 
+          next(createError(err));
         });
     })
     .catch((err) => {
-    next(createError(err));
+      next(createError(err));
     });
 });
 
+router.delete("/:houseId", isLoggedIn, (req, res, next) => {
+  const { houseId } = req.params;
+  const adminID = req.session.currentUser._id;
 
-
+  Household.findByIdAndDelete(houseId)
+    .then(() => {
+      User.findByIdAndUpdate(adminID, {
+        $unset: { household: "" },
+        admin: false,
+      })
+        .then((updatedUser) => {
+          req.session.currentUser.household = "";
+          res.status(201).json(updatedUser);
+        })
+        .catch((err) => {
+          next(createError(err));
+        });
+    })
+    .catch((err) => {
+      next(createError(err));
+    });
+});
 
 module.exports = router;
