@@ -86,7 +86,7 @@ app.use((err, req, res, next) => {
 const port = process.env.PORT || 5000;
 
 app.listen(port, function () {
-  console.log("Example app listening on port " + port + "!");
+  console.log("App listening on port " + port + "!");
 });
 
 module.exports = app;
