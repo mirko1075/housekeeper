@@ -50,6 +50,7 @@ router.delete('/:id', isLoggedIn, (req, res)=>{
     }
     User.findByIdAndRemove(id)
       .then(() => {
+          req.session.destroy();
         res
           .status(202)  
           .send(`Document ${id} was removed successfully.`);
