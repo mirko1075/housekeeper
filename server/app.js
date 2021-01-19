@@ -11,7 +11,7 @@ const cors = require("cors");
 require("dotenv").config();
 
 const authRouter = require("./routes/auth.router");
-const apiRouter = require("./routes/api.router");
+const userRouter = require("./routes/user.router");
 
 // MONGOOSE CONNECTION
 mongoose
@@ -59,18 +59,15 @@ app.use(express.static(path.join(__dirname, "public")));
 
 // ROUTER
 app.use("/auth", authRouter);
-// app.use("/api", apiRouter);
+app.use("/user", userRouter);
 
-// ROUTE FOR SERVING REACT APP (index.html)
+
 app.use((req, res, next) => {
-  // If no previous routes match the request, send back the React app.
   console.log("No matching request :>> ");
   res.sendFile(__dirname + "/public/index.html");
 });
 
 // ERROR HANDLING
-//  Catch 404 and respond with error message
-// Shows a 404 error with a message when no route is found for the request
 app.use((req, res, next) => {
   console.log("404");
   res.status(404).json({ code: "not found" }); // .send( JSON.stringify(  { code: 'not found' }  ) )
@@ -78,10 +75,8 @@ app.use((req, res, next) => {
 
 // Catch `next(err)` calls
 app.use((err, req, res, next) => {
-  // always log the error
   console.error("ERROR", req.method, req.path, err);
 
-  // only render if the error ocurred before sending the response
   if (!res.headersSent) {
     const statusError = err.status || "500";
     res.status(statusError).json(err);
