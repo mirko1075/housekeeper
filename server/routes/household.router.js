@@ -55,4 +55,17 @@ router.delete("/:houseId", isLoggedIn, (req, res, next) => {
     });
 });
 
+router.put("/:houseId", isLoggedIn, (req, res, next) => {
+  const { houseId } = req.params;
+  const { title } = req.body;
+
+  Household.findByIdAndUpdate(houseId, { title }, { new: true })
+    .then((modifiedHouse) => {
+      res.status(200).json(modifiedHouse);
+    })
+    .catch((err) => {
+      next(createError(err));
+    });
+});
+
 module.exports = router;
