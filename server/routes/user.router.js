@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const createError = require("http-errors");
+const mongoose = require("mongoose");
 const User = require("../models/user.model");
 
 const {
@@ -26,7 +27,6 @@ const {
 
 
 router.put("/edit", isLoggedIn, (req, res, next) => {
-    console.log("Edit Profile");
     const {username, image} = req.body;
     const userId = req.session.currentUser._id;
   
@@ -40,6 +40,23 @@ router.put("/edit", isLoggedIn, (req, res, next) => {
         next(createError(err)); 
     });
       
+});
+
+router.delete('/:id', isLoggedIn, (req, res)=>{
+    const { id } = req.params;
+    if ( !mongoose.Types.ObjectId.isValid(id)) {
+      res.status(400).json({ message: 'Specified id is not valid' });
+      return;
+    }
+    User.findByIdAndRemove(id)
+      .then(() => {
+        res
+          .status(202)  
+          .send(`Document ${id} was removed successfully.`);
+      })
+      .catch( err => {
+        res.status(500).json(err);
+      })
 });
 
 

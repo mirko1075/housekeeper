@@ -14,7 +14,6 @@ const {
 
 
 router.post("/signup", isNotLoggedIn, (req, res, next) => {
-  console.log("Signup");
   const { username, email, password } = req.body;
   User.findOne({ email })
     .then((foundUser) => {
@@ -49,7 +48,6 @@ router.post("/signup", isNotLoggedIn, (req, res, next) => {
 
 
 router.post("/login", isNotLoggedIn, validationLogin, (req, res, next) => {
-  console.log("Login");
   const { email, password } = req.body;
 
   User.findOne({ email })
@@ -75,7 +73,6 @@ router.post("/login", isNotLoggedIn, validationLogin, (req, res, next) => {
 });
 
 router.get("/logout", isLoggedIn, (req, res, next) => {
-  console.log("Logout");
   req.session.destroy(function (err) {
     if (err) {
       return next(err);
@@ -88,7 +85,6 @@ router.get("/logout", isLoggedIn, (req, res, next) => {
 });
 
 router.get("/me", isLoggedIn, (req, res, next) => {
-  console.log("Me :>> ");
   currentUserSessionData = req.session.currentUser;
 
   res.status(200).json(currentUserSessionData);

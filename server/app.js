@@ -12,6 +12,7 @@ require("dotenv").config();
 
 const authRouter = require("./routes/auth.router");
 const userRouter = require("./routes/user.router");
+const householdRouter = require("./routes/household.router");
 
 // MONGOOSE CONNECTION
 mongoose
@@ -60,6 +61,7 @@ app.use(express.static(path.join(__dirname, "public")));
 // ROUTER
 app.use("/auth", authRouter);
 app.use("/user", userRouter);
+app.use("/household", householdRouter);
 
 
 app.use((req, res, next) => {
@@ -73,7 +75,6 @@ app.use((req, res, next) => {
   res.status(404).json({ code: "not found" }); // .send( JSON.stringify(  { code: 'not found' }  ) )
 });
 
-// Catch `next(err)` calls
 app.use((err, req, res, next) => {
   console.error("ERROR", req.method, req.path, err);
 
