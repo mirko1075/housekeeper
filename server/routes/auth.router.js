@@ -49,7 +49,6 @@ router.post("/signup", isNotLoggedIn, (req, res, next) => {
 
 router.post("/login", isNotLoggedIn, validationLogin, (req, res, next) => {
   const { email, password } = req.body;
-  console.log(email, password)
 
   User.findOne({ email })
     .then((user) => {

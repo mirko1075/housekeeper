@@ -17,6 +17,7 @@ router.put("/edit", isLoggedIn, (req, res, next) => {
 
   User.findByIdAndUpdate(userId, { username, image }, { new: true })
     .then((modifiedUser) => {
+      req.session.currentUser = modifiedUser;
       res.status(200).json(modifiedUser);
     })
     .catch((err) => {

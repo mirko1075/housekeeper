@@ -2,9 +2,11 @@ import React from 'react'
 import { Route, Redirect } from 'react-router-dom';
 import { withAuth } from './../context/auth-context';
 
-function AnonRoute (routeProps) {
-  
+
+function PrivateRoute (routeProps) {
+
   const { isLoggedIn, isLoading } = routeProps;
+
 
   const ComponentToShow = routeProps.component;
   const { exact, path } = routeProps;
@@ -17,8 +19,8 @@ function AnonRoute (routeProps) {
       path={path}
       render={
         function(props) {
-          if (isLoggedIn) return <Redirect to="/dashboard" />
-          else if (!isLoggedIn) return <ComponentToShow {...props} />
+          if (! isLoggedIn) return <Redirect to="/login" />;
+          else if (isLoggedIn) return <ComponentToShow {...props} />;
         }
       }
      />
@@ -26,4 +28,7 @@ function AnonRoute (routeProps) {
 }
 
 
-export default withAuth(AnonRoute);
+export default withAuth(PrivateRoute);
+
+
+
