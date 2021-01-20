@@ -1,5 +1,5 @@
 const cloudinary = require("cloudinary");
-const cloudinaryStorage = require("multer-storage-cloudinary");
+const { CloudinaryStorage } = require("multer-storage-cloudinary");
 const multer = require("multer");
 
 require("dotenv").config();
@@ -10,10 +10,10 @@ cloudinary.config({
   api_secret: process.env.CLOUD_API_SECRET,
 });
 
-let storage = cloudinaryStorage({
+let storage = new CloudinaryStorage({
   //A Cloudinary API object
   cloudinary,
-  folder: "project-mg-gallery", // The name of the folder in cloudinary
+  folder: "housekeeper", // The name of the folder in cloudinary
   allowedFormats: ["jpg", "png", "jpeg", "gif"],
   // params: { resource_type: 'raw' }, => this is in case you want to upload other type of files, not just images
   //you can preset some properties for the image
