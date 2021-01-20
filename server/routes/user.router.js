@@ -41,12 +41,14 @@ router.delete("/:id", isLoggedIn, (req, res) => {
     });
 });
 
-router.post("/upload", uploader.single("image"), (req, res, next) => {
-  if (!req.file) {
-    next(new Error("No file uploaded!"));
-    return;
-  }
-  res.json({ secure_url: req.file.secure_url });
-});
+// router.post("/upload", uploader.single("image"), (req, res, next) => {
+//   console.log("req.file :>> ", req.file);
+//   if (!req.file) {
+//     next(new Error("No file uploaded!"));
+//     return;
+//   }
+//   console.log("req.file.secure_url :>> ", req.file.secure_url);
+//   res.json({ secure_url: req.file.secure_url });
+// });
 
 module.exports = router;
