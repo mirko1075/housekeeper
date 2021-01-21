@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import "./App.css";
 import { Switch, Route } from "react-router-dom";
-import { subscribeToTimer } from "./lib/api";
+// import { subscribeToTimer } from "./lib/api";
 import AnonRoute from "./components/AnonRoute";
 import PrivateRoute from "./components/PrivateRoute";
 
@@ -19,9 +19,9 @@ class App extends Component {
     //   })
     // );
   }
-  // state = {
-  //   timestamp: "no timestamp yet",
-  // };
+  state = {
+    timestamp: "no timestamp yet",
+  };
   render() {
     return (
       <div className="App">

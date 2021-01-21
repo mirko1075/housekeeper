@@ -22,14 +22,8 @@
     "morgan": "~1.9.1",
     "multer": "^1.4.2",
     "multer-storage-cloudinary": "^4.0.0",
-<<<<<<< HEAD
-    "node": "^15.4.0",
-    "node-gyp": "^4.0.0",
-    "socket.io": "^2.4.1"
-=======
     "node-gyp": "^4.0.0",
     "socket.io": "^3.1.0"
->>>>>>> 2f29c9488ea85fa2b4f39035132ba0a40818b419
   },
   "devDependencies": {
     "nodemon": "^1.19.0"

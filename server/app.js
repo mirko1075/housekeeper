@@ -63,7 +63,6 @@ app.use("/auth", authRouter);
 app.use("/user", userRouter);
 app.use("/household", householdRouter);
 
-
 app.use((req, res, next) => {
   console.log("No matching request :>> ");
   res.sendFile(__dirname + "/public/index.html");
@@ -82,12 +81,6 @@ app.use((err, req, res, next) => {
     const statusError = err.status || "500";
     res.status(statusError).json(err);
   }
-});
-
-const port = process.env.PORT || 5000;
-
-app.listen(port, function () {
-  console.log("App listening on port " + port + "!");
 });
 
 module.exports = app;
