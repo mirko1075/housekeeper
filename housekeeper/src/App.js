@@ -13,15 +13,15 @@ import Timer from "./pages/Timer";
 class App extends Component {
   constructor(props) {
     super(props);
-    subscribeToTimer((err, timestamp) =>
-      this.setState({
-        timestamp,
-      })
-    );
+    // subscribeToTimer((err, timestamp) =>
+    //   this.setState({
+    //     timestamp,
+    //   })
+    // );
   }
-  state = {
-    timestamp: "no timestamp yet",
-  };
+  // state = {
+  //   timestamp: "no timestamp yet",
+  // };
   render() {
     return (
       <div className="App">
@@ -29,12 +29,12 @@ class App extends Component {
           <Route exact path="/" component={Home} />
           <AnonRoute exact path="/login" component={Authentication} />
           <PrivateRoute exact path="/dashboard" component={Dashboard} />
-          <Route
+          {/* <Route
             exact
             path="/timer"
             timestamp={this.state.timestamp}
             component={Timer}
-          />
+          /> */}
           {/* <Route exact path="/gigboard" component={GigBoard} />
           <Route exact path="/faq" component={FAQ} />
 
