@@ -13,11 +13,11 @@ import Timer from "./pages/Timer";
 class App extends Component {
   constructor(props) {
     super(props);
-    subscribeToTimer((err, timestamp) =>
-      this.setState({
-        timestamp,
-      })
-    );
+    // subscribeToTimer((err, timestamp) =>
+    //   this.setState({
+    //     timestamp,
+    //   })
+    // );
   }
   state = {
     timestamp: "no timestamp yet",
