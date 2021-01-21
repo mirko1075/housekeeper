@@ -1,34 +1,25 @@
-import React, { Component } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import userService from "./../lib/user-service";
 
 require("dotenv").config();
 
-class ProfileSection extends Component {
-  state = {
-    username: "",
-    image: "",
-    showEdit: false,
+const ProfileSection = (props) => {
+  const [username, setUsername] = useState(props.user.username);
+  const [image, setImage] = useState(props.user.image);
+  const [showEdit, setshowEdit] = useState(false);
+
+  const toggleShowEdit = () => {
+    setshowEdit(!showEdit);
   };
 
-  toggleShowEdit = () => {
-    this.setState({ showEdit: !this.state.showEdit });
+  const cancelEdit = () => {
+    setUsername(props.user.username);
+    setImage(props.user.image);
+    toggleShowEdit();
   };
 
-  handleInput = (event) => {
-    const { name, value } = event.target;
-    this.setState({ [name]: value });
-  };
-
-  cancelEdit = () => {
-    this.setState({
-      username: this.props.user.username,
-      image: this.props.user.image,
-    });
-    this.toggleShowEdit();
-  };
-
-  handleFileUpload = (event) => {
+  const handleFileUpload = (event) => {
     const file = event.target.files[0];
     const uploadData = new FormData();
     uploadData.append("file", file);
@@ -39,60 +30,62 @@ class ProfileSection extends Component {
         uploadData
       )
       .then((response) => {
-        this.setState({ image: response.data.secure_url });
-        console.log("this.state.image :>> ", this.state.image);
+        setImage(response.data.secure_url);
       })
       .catch((err) => {
         console.log("Error while uploading the file: ", err);
       });
   };
 
-  handleSubmit = (event) => {
+  const handleInput = (event) => {
+    setUsername(event.target.value);
+  };
+
+  const handleSubmit = (event) => {
     event.preventDefault();
-    const { username, image } = this.state;
     userService.editProfile(username, image).then((response) => {
-      this.setState({
-        username: response.data.username,
-        image: response.data.image,
-      });
-      this.toggleShowEdit();
+      setUsername(response.data.username);
+      setImage(response.data.image);
+      toggleShowEdit();
     });
   };
 
-  componentDidMount() {
-    this.setState({
-      username: this.props.user.username,
-      image: this.props.user.image,
-    });
-  }
+  useEffect(() => {
+    setUsername(props.user.username);
+    setImage(props.user.image);
+  }, []);
 
-  render() {
-    return (
-      <div>
-        {this.state.showEdit ? (
-          <form onSubmit={(e) => this.handleSubmit(e)}>
-            <img src={this.state.image} />
-            <label htmlFor="image">Change photo</label>
-            <input type="file" onChange={this.handleFileUpload} />
-            <input
-              type="text"
-              name="username"
-              value={this.state.username}
-              onChange={this.handleInput}
-            />
-            <button type="submit">Submit</button>
-            <button onClick={this.cancelEdit}>Cancel</button>
-          </form>
-        ) : (
-          <div>
-            <h2>{this.state.username}</h2>
-            <img src={this.state.image} />
-            <button onClick={this.toggleShowEdit}>Edit info</button>
-          </div>
-        )}
-      </div>
-    );
-  }
-}
+  return (
+    <div>
+      {showEdit ? (
+        <form onSubmit={(e) => handleSubmit(e)}>
+          <img src={image} />
+          <br />
+          <label htmlFor="image">Change photo</label>
+          <br />
+          <input type="file" onChange={handleFileUpload} />
+          <br />
+          <input
+            type="text"
+            name="username"
+            value={username}
+            onChange={(e) => handleInput(e)}
+          />
+          <br />
+          <button type="submit">Submit</button>
+          <button onClick={cancelEdit}>Cancel</button>
+        </form>
+      ) : (
+        <div>
+          <h2>{username}</h2>
+          <br />
+          <img src={image} />
+          <br />
+          <button onClick={toggleShowEdit}>Edit info</button>
+        </div>
+      )}
+    </div>
+  );
+};
 
 export default ProfileSection;
