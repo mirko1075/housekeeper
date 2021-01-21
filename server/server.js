@@ -1,17 +1,17 @@
-const io = require("socket.io");
-const cors = require("cors");
+const socketio = require("socket.io");
 
-// CORS MIDDLEWARE SETUP
-///COMMENT
-ioSrv = io();
+const io = socketio(server, {
+  cors: {
+    origin: ["http://localhost:3000"],
+    methods: ["GET", "POST"],
+    allowedHeaders: ["my-custom-header"],
+    credentials: true,
+  },
+});
 
-corsConf = {
-  credentials: true,
-  origin: ["http://localhost:3000", "http://localhost"],
-};
 // ioSrv.use();
 
-ioSrv.on("connection", cors(corsConf), (client) => {
+io.on("connection", (client) => {
   client.on("subscribeToTimer", (interval) => {
     console.log("client is subscribing to timer with interval ", interval);
     setInterval(() => {
