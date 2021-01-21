@@ -3,7 +3,6 @@ const router = express.Router();
 const createError = require("http-errors");
 const mongoose = require("mongoose");
 const User = require("../models/user.model");
-const uploader = require("../config/cloudinary-setup");
 
 const {
   isLoggedIn,
@@ -41,14 +40,5 @@ router.delete("/:id", isLoggedIn, (req, res) => {
     });
 });
 
-// router.post("/upload", uploader.single("image"), (req, res, next) => {
-//   console.log("req.file :>> ", req.file);
-//   if (!req.file) {
-//     next(new Error("No file uploaded!"));
-//     return;
-//   }
-//   console.log("req.file.secure_url :>> ", req.file.secure_url);
-//   res.json({ secure_url: req.file.secure_url });
-// });
 
 module.exports = router;
