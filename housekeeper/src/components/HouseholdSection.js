@@ -6,10 +6,10 @@ import CreateHousehold from "./../components/CreateHousehold";
 function HouseholdSection(props) {
   const [household, setHousehold] = useState(null);
   const [showAddHouse, setAddHouse] = useState(false);
+  const [showEdit, setShowEdit] = useState(false);
 
   const toggleAddHouse = (house) => {
     if (house) {
-      // setHousehold(house);
       authService
         .me()
 
@@ -18,6 +18,18 @@ function HouseholdSection(props) {
         });
     }
     setAddHouse(!showAddHouse);
+  };
+
+  const togoleEdit = (house) => {
+    if (house) {
+      authService
+        .me()
+
+        .then((response) => {
+          setHousehold(response.household);
+        });
+    }
+    setShowEdit(!showEdit);
   };
 
   const deleteHouse = () => {
@@ -40,15 +52,23 @@ function HouseholdSection(props) {
         })}
       </ul>
       {props.user.admin ? (
-        <div>
-          <button>Add roommate</button>
-          <button>Edit house</button>
-          <button onClick={() => deleteHouse()}>Delete house</button>
-        </div>
+        showEdit ? (
+          <CreateHousehold
+            title={household.title}
+            toggleForm={togoleEdit}
+            isNew="false"
+          />
+        ) : (
+          <div>
+            <button>Add roommate</button>
+            <button onClick={togoleEdit}>Edit house</button>
+            <button onClick={() => deleteHouse()}>Delete house</button>
+          </div>
+        )
       ) : null}
     </div>
   ) : showAddHouse ? (
-    <CreateHousehold toggleForm={toggleAddHouse} />
+    <CreateHousehold toggleForm={toggleAddHouse} isNew="true" />
   ) : (
     <button onClick={() => toggleAddHouse(null)}>Create household</button>
   );

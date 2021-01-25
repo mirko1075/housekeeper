@@ -19,6 +19,13 @@ class HouseholdService {
     return pr;
   };
 
+  editHouse = (houseObj) => {
+    const pr = this.household.put("/household/" + houseObj._id, {
+      title: houseObj.title,
+    });
+    return pr;
+  };
+
   deleteHouse = (id) => {
     const pr = this.household.delete("/household/" + id);
     return pr;
