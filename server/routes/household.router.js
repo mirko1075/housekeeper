@@ -44,7 +44,7 @@ router.delete("/:houseId", isLoggedIn, (req, res, next) => {
       })
         .then((updatedUser) => {
           req.session.currentUser.household = "";
-          res.status(201).json(updatedUser);
+          res.status(200).json(updatedUser);
         })
         .catch((err) => {
           next(createError(err));
