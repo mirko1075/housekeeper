@@ -85,9 +85,21 @@ router.get("/logout", isLoggedIn, (req, res, next) => {
 });
 
 router.get("/me", isLoggedIn, (req, res, next) => {
-  currentUserSessionData = req.session.currentUser;
-
-  res.status(200).json(currentUserSessionData);
+  const {_id} = req.session.currentUser;
+  User.findById(_id)
+    .populate({
+      path : 'household',
+      populate : {
+        path : 'members'
+      }
+    })
+    .then(foundUser => {
+      req.session.currentUser = foundUser;
+      res.status(200).json(foundUser);
+    })
+    .catch((err) => {
+      next(createError(err));
+    });
 });
 
 

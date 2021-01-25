@@ -10,11 +10,22 @@ const {
   validationLogin,
 } = require("../helpers/middlewares");
 
+router.get("/:id", isLoggedIn, (req, res, next) => {
+  const {id} = req.params;
+  console.log('id', id)
+  Household.findById(id).populate("admin").populate("members")
+    .then((household) => res.status(201).json(household))
+    .catch((err) => {
+      next(createError(err));
+    });
+})
+
 router.post("/", isLoggedIn, (req, res, next) => {
   const { title } = req.body;
   const admin = req.session.currentUser._id;
+  const members = [admin];
 
-  Household.create({ title, admin })
+  Household.create({ title, admin, members})
     .then((newHouse) => {
       const houseID = newHouse._id;
       const adminID = newHouse.admin;
