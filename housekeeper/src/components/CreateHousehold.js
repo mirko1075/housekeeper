@@ -31,6 +31,8 @@ function CreateHousehold(props) {
         });
     }
   };
+
+  //USe effect
   useEffect(() => {
     const defaultTitle = props.title ? props.title : "";
     setTitle(defaultTitle);
