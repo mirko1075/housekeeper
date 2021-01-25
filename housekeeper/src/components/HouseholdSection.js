@@ -1,17 +1,34 @@
 import React, { useState, useEffect } from "react";
 import householdService from "./../lib/household-service";
+import authService from "./../lib/auth-service";
 import CreateHousehold from "./../components/CreateHousehold";
 
 function HouseholdSection(props) {
-  console.log("props :>> ", props);
-  const [household, setHousehold] = useState(props.user.household);
+  const [household, setHousehold] = useState(null);
   const [showAddHouse, setAddHouse] = useState(false);
 
   const toggleAddHouse = (house) => {
-    house && setHousehold(house);
-    console.log("house :>> ", house);
+    if (house) {
+      // setHousehold(house);
+      authService
+        .me()
+
+        .then((response) => {
+          setHousehold(response.household);
+        });
+    }
     setAddHouse(!showAddHouse);
   };
+
+  const deleteHouse = () => {
+    const houseId = household._id;
+    householdService.deleteHouse(houseId);
+    setHousehold(null);
+  };
+
+  useEffect(() => {
+    setHousehold(props.user.household);
+  }, []);
 
   return household ? (
     <div>
@@ -26,6 +43,7 @@ function HouseholdSection(props) {
         <div>
           <button>Add roommate</button>
           <button>Edit house</button>
+          <button onClick={() => deleteHouse()}>Delete house</button>
         </div>
       ) : null}
     </div>

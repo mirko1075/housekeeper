@@ -10,10 +10,11 @@ function CreateHousehold(props) {
 
   const submitForm = (event) => {
     event.preventDefault();
+    console.log("title :>> ", title);
     householdService
       .createHouse(title)
       .then((newHouse) => {
-        props.toggleForm(newHouse);
+        props.toggleForm(newHouse.data);
       })
       .catch((err) => {
         console.log(err);
@@ -23,7 +24,13 @@ function CreateHousehold(props) {
   return (
     <form onSubmit={(e) => submitForm(e)}>
       <label>House name: </label> <br />
-      <input type="text" name="title" onChange={(e) => handleInput(e)} /> <br />
+      <input
+        type="text"
+        name="title"
+        value={title}
+        onChange={(e) => handleInput(e)}
+      />
+      <br />
       <button type="submit">Create house</button>
       <button onClick={props.toggleForm}>Cancel</button>
     </form>
